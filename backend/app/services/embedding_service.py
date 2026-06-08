@@ -1,26 +1,15 @@
-from sentence_transformers import SentenceTransformer
-
-_model = None
-
-def get_model():
-    global _model
-
-    if _model is None:
-        _model = SentenceTransformer(
-            "all-MiniLM-L6-v2",
-            local_files_only=True
-        )
-
-    return _model
-
+# backend/app/services/embedding_service.py
 
 def generate_embeddings(chunks):
+    """
+    Temporary lightweight embedding service for Render deployment.
+    Returns dummy vectors to avoid loading SentenceTransformer,
+    Torch, and Transformers models.
+    """
 
-    model = get_model()
+    embeddings = []
 
-    embeddings = model.encode(
-        chunks,
-        convert_to_tensor=False
-    )
+    for _ in chunks:
+        embeddings.append([0.0] * 384)
 
     return embeddings
