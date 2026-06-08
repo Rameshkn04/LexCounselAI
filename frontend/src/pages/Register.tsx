@@ -38,13 +38,16 @@ function Register() {
         navigate("/");
 
       } catch (error: any) {
-        console.log("REGISTER ERROR:", error);
+          console.log(error);
+          console.log(error?.response);
+          console.log(error?.response?.data);
 
-        alert(
-          error?.response?.data?.detail ||
-          error?.message ||
-          "Registration Failed"
-        );
+          alert(
+            error?.response?.data?.detail ||
+            JSON.stringify(error?.response?.data) ||
+            error?.message ||
+            "Registration Failed"
+          );
       }
     };
 
