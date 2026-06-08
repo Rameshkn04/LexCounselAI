@@ -22,7 +22,7 @@ from app.services.vector_store import (
     search_chunks
 )
 
-from app.services.ollama_service import (
+from app.services.gemini_service import(
     generate_answer
 )
 
