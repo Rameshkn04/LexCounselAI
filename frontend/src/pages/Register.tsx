@@ -37,12 +37,14 @@ function Register() {
 
         navigate("/");
 
-      } catch {
+      } catch (error: any) {
+        console.log("REGISTER ERROR:", error);
 
         alert(
+          error?.response?.data?.detail ||
+          error?.message ||
           "Registration Failed"
         );
-
       }
     };
 
