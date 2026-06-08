@@ -17,11 +17,21 @@ app = FastAPI(
     title="LexCounsel AI",
     version="1.0.0"
 )
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI()
+
+origins = [
+    "https://lex-counsel-ai-kecs.vercel.app",
+    "https://lex-counsel-ai-kecs-git-main-rameshkn04s-projects.vercel.app",
+    "http://localhost:5173",
+]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
+    allow_origins=origins,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
