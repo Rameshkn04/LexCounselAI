@@ -21,11 +21,11 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+    "https://lex-counsel-ai-kecs.vercel.app",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://lex-counsel-ai-kecs.vercel.app",
     ],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
