@@ -1,0 +1,22 @@
+# Environment
+.env
+backend/.env
+
+# Python
+__pycache__/
+*.pyc
+
+# Virtual Environment
+venv/
+
+# ChromaDB
+backend/chroma_db/
+
+# Uploads
+backend/uploads/
+
+# Node
+node_modules/
+
+# Build
+dist/

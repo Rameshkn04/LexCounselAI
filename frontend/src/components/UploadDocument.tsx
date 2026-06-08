@@ -1,39 +1,68 @@
-import { useState } from "react";
+import React from "react";
 import API from "../services/api";
 
 function UploadDocument() {
 
   const uploadFile = async (
-    event: any
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
 
-    const file =
-      event.target.files[0];
+    const file = event.target.files?.[0];
 
-    const formData =
-      new FormData();
+    if (!file) {
+      return;
+    }
+
+    const formData = new FormData();
 
     formData.append(
       "file",
       file
     );
 
-    await API.post(
-      "/documents/upload",
-      formData
-    );
+    try {
 
-    alert(
-      "Uploaded Successfully"
-    );
+      await API.post(
+        "/documents/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type":
+              "multipart/form-data",
+          },
+        }
+      );
+
+      alert(
+        "Uploaded Successfully"
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Upload Error:",
+        error
+      );
+
+      alert(
+        "Upload Failed"
+      );
+    }
   };
 
   return (
-    <div>
 
-      <h3>Upload PDF</h3>
+    <div className="upload-container">
 
+      <h3>
+        📄 Upload PDF
+      </h3>
+
+      <label htmlFor="document-upload" className="sr-only">
+        Upload PDF file
+      </label>
       <input
+        id="document-upload"
         type="file"
         accept=".pdf"
         onChange={uploadFile}
