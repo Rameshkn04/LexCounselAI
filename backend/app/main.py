@@ -10,7 +10,6 @@ from app.models.document import Document
 from app.api.auth import router as auth_router
 from app.api.document import router as document_router
 
-from app.services.embedding_service import get_model
 
 Base.metadata.create_all(bind=engine)
 
