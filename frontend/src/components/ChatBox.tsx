@@ -92,6 +92,14 @@ function ChatBox() {
   return (
     <div className="chat-container">
 
+      <style>{`
+        .message-time {
+          margin-top: 10px;
+          font-size: 13px;
+          opacity: 0.7;
+        }
+      `}</style>
+
       {/* Header */}
       <div className="chat-header">
         <h1>LexCounsel AI Assistant</h1>
@@ -195,13 +203,7 @@ function ChatBox() {
 
             )}
 
-            <div
-              style={{
-                marginTop: "10px",
-                fontSize: "13px",
-                opacity: 0.7,
-              }}
-            >
+            <div className="message-time">
               {message.time}
             </div>
 
