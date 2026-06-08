@@ -1,15 +1,13 @@
 # backend/app/services/embedding_service.py
 
+import numpy as np
+
 def generate_embeddings(chunks):
     """
-    Temporary lightweight embedding service for Render deployment.
-    Returns dummy vectors to avoid loading SentenceTransformer,
-    Torch, and Transformers models.
+    Lightweight dummy embeddings for Render free tier.
+    Avoids loading SentenceTransformer/Torch.
     """
 
-    embeddings = []
-
-    for _ in chunks:
-        embeddings.append([0.0] * 384)
+    embeddings = np.zeros((len(chunks), 384))
 
     return embeddings
