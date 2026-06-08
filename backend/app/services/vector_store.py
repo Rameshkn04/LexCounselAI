@@ -42,7 +42,7 @@ def search_chunks(query_embedding):
         query_embeddings=[
             query_embedding.tolist()
         ],
-        n_results=3
+        n_results=5
     )
 
     return results

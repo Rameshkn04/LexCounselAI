@@ -36,6 +36,9 @@ router = APIRouter(
     tags=["Documents"]
 )
 
+from fastapi import HTTPException
+from app.models.document import Document
+
 
 # -------------------------
 # Upload Document
@@ -50,6 +53,14 @@ def upload_document(
     # Save file
     path = save_file(file)
 
+    existing = db.query(Document).filter(Document.filename == file.filename).first()
+
+    if existing:
+        return {
+        "message": "Document already uploaded",
+        "document_id": existing.id,
+        "filename": existing.filename
+    }
     # Save metadata in PostgreSQL
     document = create_document(
         db=db,
@@ -231,7 +242,9 @@ def ask(question: str):
                 "answer": "No relevant documents found."
             }
 
-        context = results["documents"][0][0]
+        top_chunks = results["documents"][0][:5]
+
+        context = "\n\n".join(top_chunks)
 
         answer = generate_answer(
             question,
@@ -240,12 +253,12 @@ def ask(question: str):
 
         source = "Unknown"
 
-        if (
-            "metadatas" in results
-            and results["metadatas"]
-            and results["metadatas"][0]
-        ):
-            source = results["metadatas"][0][0]["source"]
+        if results.get("metadatas"):
+            source = results["metadatas"][0][0].get(
+            "source",
+            "Unknown"
+            )
+
 
         return {
             "question": question,
@@ -262,3 +275,31 @@ def ask(question: str):
             "answer": "An error occurred while processing your request.",
             "source": None
         }
+
+
+@router.delete("/{doc_id}")
+def delete_document(
+    doc_id: int,
+    db: Session = Depends(get_db)
+):
+
+    document = db.query(Document).filter(
+        Document.id == doc_id
+    ).first()
+
+    if not document:
+        raise HTTPException(
+            status_code=404,
+            detail="Document not found"
+        )
+
+    # Delete physical file
+    if os.path.exists(document.filepath):
+        os.remove(document.filepath)
+
+    db.delete(document)
+    db.commit()
+
+    return {
+        "message": "Document deleted successfully"
+    }

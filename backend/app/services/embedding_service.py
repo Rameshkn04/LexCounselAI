@@ -1,13 +1,44 @@
 # backend/app/services/embedding_service.py
 
-import numpy as np
+import google.generativeai as genai
 
-def generate_embeddings(chunks):
+from app.core.config import GEMINI_API_KEY
+
+# Configure Gemini
+genai.configure(
+    api_key=GEMINI_API_KEY
+)
+
+def generate_embeddings(texts):
     """
-    Lightweight dummy embeddings for Render free tier.
-    Avoids loading SentenceTransformer/Torch.
+    Generate embeddings using Gemini Embedding Model.
+    Works on Render free tier without Torch.
     """
 
-    embeddings = np.zeros((len(chunks), 384))
+    embeddings = []
+
+    for text in texts:
+
+        try:
+
+            response = genai.embed_content(
+                model="models/text-embedding-004",
+                content=text
+            )
+
+            embeddings.append(
+                response["embedding"]
+            )
+
+        except Exception as e:
+
+            print(
+                f"Embedding Error: {e}"
+            )
+
+            # fallback vector
+            embeddings.append(
+                [0.0] * 768
+            )
 
     return embeddings

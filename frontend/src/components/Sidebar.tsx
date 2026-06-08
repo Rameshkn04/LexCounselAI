@@ -6,7 +6,9 @@ function Sidebar() {
   return (
     <div className="sidebar">
 
-      <h2>Documents</h2>
+      <h2 className="sidebar-title">
+        Documents
+      </h2>
 
       <UploadDocument />
 

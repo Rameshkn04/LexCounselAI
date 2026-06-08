@@ -6,7 +6,6 @@ function Navbar() {
 
     window.location.href = "/";
   };
-
   const userEmail =
   localStorage.getItem("userEmail") ||
   sessionStorage.getItem("userEmail") ||

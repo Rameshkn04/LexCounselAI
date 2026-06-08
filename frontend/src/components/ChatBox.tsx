@@ -1,36 +1,45 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import API from "../services/api";
 
 interface Message {
   type: "user" | "ai";
   text: string;
   source?: string;
+  time?: string;
 }
 
 function ChatBox() {
-  const [question, setQuestion] =
-    useState("");
+  const [question, setQuestion] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
 
-  const [loading, setLoading] =
-    useState(false);
+  const bottomRef = useRef<HTMLDivElement>(null);
 
-  const [messages, setMessages] =
-    useState<Message[]>([]);
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [messages, loading]);
+
+  const getTime = () => {
+    return new Date().toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
 
   const askQuestion = async (
     customQuestion?: string
   ) => {
-
     const finalQuestion =
       customQuestion || question;
 
-    if (!finalQuestion.trim()) {
-      return;
-    }
+    if (!finalQuestion.trim()) return;
 
     const userMessage: Message = {
       type: "user",
       text: finalQuestion,
+      time: getTime(),
     };
 
     setMessages((prev) => [
@@ -38,16 +47,15 @@ function ChatBox() {
       userMessage,
     ]);
 
+    setQuestion("");
     setLoading(true);
 
     try {
-
       const response = await API.get(
         "/documents/ask",
         {
           params: {
-            question:
-              finalQuestion,
+            question: finalQuestion,
           },
         }
       );
@@ -55,41 +63,44 @@ function ChatBox() {
       const aiMessage: Message = {
         type: "ai",
         text: response.data.answer,
-        source:
-          response.data.source,
+        source: response.data.source,
+        time: getTime(),
       };
 
       setMessages((prev) => [
         ...prev,
         aiMessage,
       ]);
-
-      setQuestion("");
-
     } catch (error) {
-
       console.error(error);
 
       const errorMessage: Message = {
         type: "ai",
         text: "Error getting response from server.",
+        time: getTime(),
       };
 
       setMessages((prev) => [
         ...prev,
         errorMessage,
       ]);
-
     } finally {
-
       setLoading(false);
-
     }
   };
 
   return (
     <div className="chat-container">
 
+      {/* Header */}
+      <div className="chat-header">
+        <h1>LexCounsel AI Assistant</h1>
+        <p>
+          Ask anything about your legal documents
+        </p>
+      </div>
+
+      {/* Chat History */}
       <div className="chat-history">
 
         {messages.length === 0 && (
@@ -101,8 +112,8 @@ function ChatBox() {
             </h1>
 
             <p>
-              Upload legal documents
-              and ask questions.
+              Upload legal documents and ask
+              questions instantly.
             </p>
 
             <div className="suggestions">
@@ -114,8 +125,7 @@ function ChatBox() {
                   )
                 }
               >
-                What is the
-                termination clause?
+                Termination Clause
               </button>
 
               <button
@@ -125,7 +135,7 @@ function ChatBox() {
                   )
                 }
               >
-                What is the salary?
+                Salary
               </button>
 
               <button
@@ -135,8 +145,7 @@ function ChatBox() {
                   )
                 }
               >
-                What is the
-                probation period?
+                Probation Period
               </button>
 
               <button
@@ -147,7 +156,6 @@ function ChatBox() {
                 }
               >
                 Confidentiality
-                obligations?
               </button>
 
             </div>
@@ -156,87 +164,90 @@ function ChatBox() {
 
         )}
 
-        {messages.map(
-          (message, index) => (
+        {messages.map((message, index) => (
 
-            <div
-              key={index}
-              className={
-                message.type ===
-                "user"
-                  ? "user-message"
-                  : "ai-message"
-              }
-            >
+          <div
+            key={index}
+            className={
+              message.type === "user"
+                ? "user-message"
+                : "ai-message"
+            }
+          >
 
-              <div className="message-header">
+            <div className="message-header">
 
-                {message.type ===
-                "user"
-                  ? "👤 You"
-                  : "⚖️ LexCounsel AI"}
-
-              </div>
-
-              <div className="message-body">
-
-                {message.text}
-
-              </div>
-
-              {message.source && (
-
-                <div className="message-source">
-
-                  📄 Source:
-                  {" "}
-                  {message.source}
-
-                </div>
-
-              )}
+              {message.type === "user"
+                ? "👤 You"
+                : "⚖️ LexCounsel AI"}
 
             </div>
 
-          )
-        )}
+            <div className="message-body">
+              {message.text}
+            </div>
+
+            {message.source && (
+
+              <div className="message-source">
+                📄 Source: {message.source}
+              </div>
+
+            )}
+
+            <div
+              style={{
+                marginTop: "10px",
+                fontSize: "13px",
+                opacity: 0.7,
+              }}
+            >
+              {message.time}
+            </div>
+
+          </div>
+
+        ))}
 
         {loading && (
 
-          <div className="loading">
+          <div className="ai-message">
 
-            ⚖️ Analyzing legal documents...
+            <div className="message-header">
+              ⚖️ LexCounsel AI
+            </div>
+
+            <div className="message-body">
+              Analyzing legal documents...
+            </div>
 
           </div>
 
         )}
 
+        <div ref={bottomRef}></div>
+
       </div>
 
+      {/* Input */}
       <div className="chat-input">
 
         <input
           type="text"
           value={question}
           onChange={(e) =>
-            setQuestion(
-              e.target.value
-            )
+            setQuestion(e.target.value)
           }
           placeholder="Ask anything about your legal documents..."
           onKeyDown={(e) => {
-            if (
-              e.key === "Enter"
-            ) {
+            if (e.key === "Enter") {
               askQuestion();
             }
           }}
         />
 
         <button
-          onClick={() =>
-            askQuestion()
-          }
+          onClick={() => askQuestion()}
           disabled={loading}
         >
           {loading
