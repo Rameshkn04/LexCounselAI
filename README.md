@@ -157,31 +157,27 @@ The repository includes sample documents:
 
 ### Login Page
 
-<img src="./screenshots/login.png" alt="Login Page" width="800" height="600" />
+<img src="./screenshots/login.png" alt="Login Page - User authentication interface" width="800" height="600" />
 
 ### Dashboard
 
-<img src="./screenshots/dashboard.png" alt="Dashboard" width="800" height="600" />
+<img src="./screenshots/dashboard.png" alt="Dashboard - Main application interface" width="800" height="600" />
 
 ### Upload Document
 
-<img src="./screenshots/upload_document.png" alt="Upload Document" width="800" height="600" />
+<img src="./screenshots/upload.png" alt="Upload Document - PDF upload interface" width="800" height="600" />
 
 ### Ask Questions
 
-<img src="./screenshots/ask_questions.png" alt="Ask Questions" width="800" height="600" />
-
-### Source Attribution
-
-<img src="./screenshots/source_attribution.png" alt="Source Attribution" width="800" height="600" />
+<img src="./screenshots/ask-question.png" alt="Ask Questions - Query interface for legal documents" width="800" height="600" />
 
 ### FastAPI Backend
 
-<img src="./screenshots/fastapi_backend.png" alt="FastAPI Backend" width="800" height="600" />
+<img src="./screenshots/fastapi.png" alt="FastAPI Backend - API documentation and testing" width="800" height="600" />
 
 ### PostgreSQL Neon DB
 
-<img src="./screenshots/postgresql_neon_db.png" alt="PostgreSQL Neon DB" width="800" height="600" />
+<img src="./screenshots/postgresql neon db.png" alt="PostgreSQL Neon DB - Database management interface" width="800" height="600" />
 
 ---
 
