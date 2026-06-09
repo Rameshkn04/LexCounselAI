@@ -1,42 +1,42 @@
-# ⚖️ LexCounsel AI
+# LexCounsel AI – Intelligent Legal Document Assistant
 
-LexCounsel AI is an AI-powered Legal Document Assistant that enables users to upload legal documents, perform semantic search, and ask natural language questions to receive context-aware answers from the uploaded documents.
+## Overview
 
-The system combines FastAPI, PostgreSQL, ChromaDB, Sentence Transformers, and Llama 3 (via Ollama) to provide an intelligent legal document analysis platform.
+LexCounsel AI is an AI-powered Legal Document Assistant that enables users to upload legal documents and ask natural language questions about their contents.
+
+The system uses Retrieval-Augmented Generation (RAG) to retrieve relevant document sections and generate accurate answers grounded in uploaded documents.
+
+---
+
+## Live Demo
+
+### Frontend
+
+https://lex-counsel-ai-kecs.vercel.app
+
+### Backend API
+
+https://lexcounselai.onrender.com
+
+### API Documentation
+
+https://lexcounselai.onrender.com/docs
 
 ---
 
 ## Features
 
-### Authentication
-
-* User Registration
-* User Login
-* JWT Authentication
-* Secure Password Hashing
-
-### Document Management
-
-* Upload PDF Documents
-* Store Document Metadata
-* Automatic Text Extraction
-* Automatic Document Chunking
-
-### AI-Powered Legal Assistant
-
+* User Authentication
+* PDF Upload
+* Automatic Document Processing
+* Text Extraction from PDFs
+* Intelligent Chunking
 * Semantic Search using ChromaDB
-* Vector Embeddings using Sentence Transformers
-* Question Answering using Llama 3 (Ollama)
-* Context-Aware Responses
-* Source Document Attribution
-
-### User Interface
-
-* Modern React + TypeScript Frontend
-* Professional Dashboard
-* Legal-Themed UI
-* Chat-Based Interaction
-* Document Sidebar
+* AI-Powered Question Answering
+* Source Attribution
+* Document Management
+* Delete Uploaded Documents
+* Responsive Modern UI
 
 ---
 
@@ -44,259 +44,112 @@ The system combines FastAPI, PostgreSQL, ChromaDB, Sentence Transformers, and Ll
 
 ### Frontend
 
-* React
-* TypeScript
+* React.js
 * Axios
-* React Router
+* CSS
 
 ### Backend
 
 * FastAPI
 * SQLAlchemy
-* JWT Authentication
-
-### Database
-
 * PostgreSQL
 
-### AI & Vector Search
+### AI & RAG
 
-* Ollama
-* Llama 3
-* Sentence Transformers
 * ChromaDB
+* Gemini API
+* HashingVectorizer Embeddings
 
-### PDF Processing
+### Deployment
 
-* PyPDF2
-
----
-
-## Project Structure
-
-```text
-LexCounselAI
-│
-├── backend
-│   ├── app
-│   │   ├── api
-│   │   ├── core
-│   │   ├── models
-│   │   ├── schemas
-│   │   ├── services
-│   │   └── main.py
-│   │
-│   ├── uploads
-│   ├── chroma_db
-│   ├── requirements.txt
-│   └── .env
-│
-├── frontend
-│   ├── src
-│   │   ├── pages
-│   │   ├── components
-│   │   ├── services
-│   │   └── assets
-│   │
-│   ├── package.json
-│   └── vite.config.ts
-│
-└── README.md
-```
+* Vercel (Frontend)
+* Render (Backend)
 
 ---
 
 ## System Architecture
 
-```text
 User
- │
- ▼
-React Frontend
- │
- ▼
+↓
+Frontend (React)
+↓
 FastAPI Backend
- │
- ├── PostgreSQL
- │
- ├── PDF Extraction
- │
- ├── ChromaDB
- │
- └── Ollama (Llama 3)
-```
+↓
+PDF Processing
+↓
+Chunking
+↓
+Embedding Generation
+↓
+ChromaDB Vector Store
+↓
+Semantic Retrieval
+↓
+Gemini LLM
+↓
+Answer + Source
 
 ---
 
-## Installation
+## Project Workflow
 
-### Clone Repository
-
-```bash
-git clone https://github.com/YOUR_USERNAME/LexCounselAI.git
-
-cd LexCounselAI
-```
-
----
-
-## Backend Setup
-
-Navigate to backend folder:
-
-```bash
-cd backend
-```
-
-Create Virtual Environment:
-
-```bash
-python -m venv venv
-```
-
-Activate Environment:
-
-### Windows
-
-```bash
-venv\Scripts\activate
-```
-
-Install Dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Run Backend:
-
-```bash
-uvicorn app.main:app --reload
-```
-
-Backend URL:
-
-```text
-http://127.0.0.1:8000
-```
-
-Swagger Documentation:
-
-```text
-http://127.0.0.1:8000/docs
-```
+1. User uploads PDF.
+2. PDF text is extracted.
+3. Text is split into chunks.
+4. Chunks are converted into embeddings.
+5. Embeddings are stored in ChromaDB.
+6. User asks a question.
+7. Similar chunks are retrieved.
+8. Context is sent to Gemini.
+9. Answer is generated.
+10. Source document is displayed.
 
 ---
 
-## Frontend Setup
+## Sample Test Credentials
 
-Navigate to frontend folder:
+Email:
+[admin@gmail.com](mailto:admin@gmail.com)
 
-```bash
-cd frontend
-```
-
-Install Packages:
-
-```bash
-npm install
-```
-
-Run Frontend:
-
-```bash
-npm run dev
-```
-
-Frontend URL:
-
-```text
-http://localhost:5173
-```
+Password:
+123456
 
 ---
 
-## Ollama Setup
+## Sample Documents
 
-Install Ollama:
+The repository includes sample documents:
 
-https://ollama.com
-
-Pull Llama 3 Model:
-
-```bash
-ollama pull llama3
-```
-
-Start Ollama:
-
-```bash
-ollama serve
-```
-
-Verify:
-
-```bash
-ollama list
-```
+* lease_agreement.pdf
+* employment_contract.pdf
+* contract.pdf
+* sample_legal_contract.pdf
 
 ---
 
-## Usage
+## Sample Questions
 
-### Step 1
+### Lease Agreement
 
-Register a new account.
+* What is the monthly rent?
+* What is the security deposit?
+* Who is the landlord?
+* What is the lease period?
+* What is the termination clause?
 
-### Step 2
+### Employment Contract
 
-Login using registered credentials.
+* What is the employee salary?
+* What is the joining date?
+* What are the working hours?
+* What is the probation period?
 
-### Step 3
+### Service Contract
 
-Upload a legal PDF document.
-
-### Step 4
-
-Wait for document indexing.
-
-### Step 5
-
-Ask legal questions such as:
-
-```text
-What is the termination clause?
-
-What is the salary mentioned in the contract?
-
-What are the employee responsibilities?
-```
-
-### Step 6
-
-Receive AI-generated answers based on document content.
-
----
-
-## Sample Output
-
-Question:
-
-```text
-What is the termination clause in the employment contract?
-```
-
-Answer:
-
-```text
-According to the provided context, the employee or employer may terminate employment by giving 90 days notice.
-```
-
-Source:
-
-```text
-employment_contract.pdf
-```
+* What are the payment terms?
+* What is the contract duration?
+* What is the confidentiality clause?
+* What is the termination clause?
 
 ---
 
@@ -304,47 +157,104 @@ employment_contract.pdf
 
 ### Login Page
 
-(Add Screenshot)
-
-### Registration Page
-
-(Add Screenshot)
+(Add screenshot here)
 
 ### Dashboard
 
-(Add Screenshot)
+(Add screenshot here)
 
-### Document Upload
+### Upload Document
 
-(Add Screenshot)
+(Add screenshot here)
 
-### Question Answering
+### Ask Questions
 
-(Add Screenshot)
+(Add screenshot here)
+
+### Source Attribution
+
+(Add screenshot here)
+
+---
+
+## Security & Privacy
+
+### API Key Protection
+
+* Gemini API key is stored securely using environment variables.
+* API keys are never exposed to the frontend.
+* Secrets are excluded from Git using .gitignore.
+
+### User Data Protection
+
+* Uploaded documents are processed only for question answering.
+* Authentication is required before accessing the dashboard.
+* Sensitive configuration values are stored on the server.
+
+### CORS Protection
+
+Backend CORS policies are configured to allow secure frontend communication.
+
+---
+
+## Known Limitations
+
+### Gemini Free Tier Limits
+
+The project currently uses Gemini Free Tier APIs.
+
+Possible issue:
+
+429 Too Many Requests
+
+This occurs when the daily request quota is exceeded.
+
+Possible solutions:
+
+* Wait for quota reset.
+* Upgrade Gemini API plan.
+* Use alternative LLM providers.
+* Add request caching.
 
 ---
 
 ## Future Enhancements
 
-* Chat History Storage
-* Multi-Document Search
-* PDF Preview
-* Role-Based Access Control
-* Cloud Deployment
-* Advanced Legal Clause Extraction
+* Multi-user document isolation
+* OCR support for scanned PDFs
+* DOCX support
+* Conversation history
+* Legal clause comparison
+* Contract risk analysis
+* Document summarization
+* Multi-language support
+* Citation highlighting
+
+---
+
+## Project Documentation
+
+Detailed Project Report:
+
+docs/Project_Report.pdf
+
+Presentation Slides:
+
+docs/Project_Presentation.pptx
 
 ---
 
 ## Author
 
-Ramesh K N
+Ramesh KN
 
-Final Year Engineering Student
+Artificial Intelligence & Machine Learning Engineer
 
-AI & Full Stack Development Enthusiast
+GitHub:
+https://github.com/Rameshkn04
 
 ---
 
 ## License
 
-This project is submitted as part of the Lawyers Guild Internship Assignment.
+This project is intended for educational and research purposes.
