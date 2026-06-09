@@ -237,14 +237,29 @@ def ask(question: str):
             query_embedding
         )
 
-        if not results["documents"]:
+        print("SEARCH RESULTS:", results)
+
+        documents = results.get(
+            "documents",
+            []
+        )
+
+        if (
+            not documents
+            or len(documents) == 0
+            or len(documents[0]) == 0
+        ):
             return {
-                "answer": "No relevant documents found."
+                "question": question,
+                "answer": "No relevant information found in uploaded documents.",
+                "source": None
             }
 
-        top_chunks = results["documents"][0][:5]
+        top_chunks = documents[0][:2]
 
-        context = "\n\n".join(top_chunks)
+        context = "\n\n".join(
+            top_chunks
+        )
 
         answer = generate_answer(
             question,
@@ -253,10 +268,19 @@ def ask(question: str):
 
         source = "Unknown"
 
-        if results.get("metadatas"):
-            source = results["metadatas"][0][0].get(
-            "source",
-            "Unknown"
+        metadatas = results.get(
+            "metadatas",
+            []
+        )
+
+        if (
+            metadatas
+            and len(metadatas) > 0
+            and len(metadatas[0]) > 0
+        ):
+            source = metadatas[0][0].get(
+                "source",
+                "Unknown"
             )
 
 

@@ -2,14 +2,16 @@ import google.generativeai as genai
 
 from app.core.config import GEMINI_API_KEY
 
+print("GEMINI_API_KEY EXISTS:", bool(GEMINI_API_KEY))
+
 # Configure Gemini
 genai.configure(
     api_key=GEMINI_API_KEY
 )
 
-# Recommended model
+# Stable model
 model = genai.GenerativeModel(
-    "gemini-2.5-flash"
+    "gemini-1.5-flash"
 )
 
 
@@ -44,10 +46,12 @@ Answer:
 """
 
     try:
+        print("CALLING GEMINI...")
 
         response = model.generate_content(
             prompt
         )
+        print("GEMINI RESPONSE RECEIVED")
 
         if (
             response
@@ -63,9 +67,10 @@ Answer:
 
     except Exception as e:
 
-        print(f"Gemini Error: {e}")
+        print("========== GEMINI ERROR ==========")
+        print(str(e))
+        print("==================================")
 
-        # Fallback answer from retrieved context
         fallback_context = context[:1000]
 
         return (
