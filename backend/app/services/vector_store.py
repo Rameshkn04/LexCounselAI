@@ -30,7 +30,7 @@ def add_chunks(
 
     collection.add(
         documents=chunks,
-        embeddings=embeddings,
+        embeddings=embeddings.tolist(),
         ids=ids,
         metadatas=metadatas
     )
@@ -40,7 +40,7 @@ def search_chunks(query_embedding):
 
     results = collection.query(
         query_embeddings=[
-            query_embedding
+            query_embedding.tolist()
         ],
         n_results=5
     )

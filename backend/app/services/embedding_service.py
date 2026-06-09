@@ -1,22 +1,17 @@
-# embedding_service.py
+from sklearn.feature_extraction.text import HashingVectorizer
 
-import google.generativeai as genai
-from app.core.config import GEMINI_API_KEY
+vectorizer = HashingVectorizer(
+    n_features=384,
+    alternate_sign=False
+)
 
-genai.configure(api_key=GEMINI_API_KEY)
 
 def generate_embeddings(texts):
+    """
+    Lightweight embeddings for Render free tier.
+    No Torch, no SentenceTransformer.
+    """
 
-    embeddings = []
+    vectors = vectorizer.transform(texts)
 
-    for text in texts:
-
-        result = genai.embed_content(
-            model="models/embedding-001",
-            content=text,
-            task_type="retrieval_document"
-        )
-
-        embeddings.append(result["embedding"])
-
-    return embeddings
+    return vectors.toarray()
