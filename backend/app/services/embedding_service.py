@@ -1,44 +1,17 @@
-# backend/app/services/embedding_service.py
+from sentence_transformers import SentenceTransformer
 
-import google.generativeai as genai
-
-from app.core.config import GEMINI_API_KEY
-
-# Configure Gemini
-genai.configure(
-    api_key=GEMINI_API_KEY
+# Load model once when app starts
+model = SentenceTransformer(
+    "all-MiniLM-L6-v2"
 )
 
 def generate_embeddings(texts):
     """
-    Generate embeddings using Gemini Embedding Model.
-    Works on Render free tier without Torch.
+    Generate embeddings for a list of texts.
+    Returns NumPy array compatible with ChromaDB.
     """
 
-    embeddings = []
-
-    for text in texts:
-
-        try:
-
-            response = genai.embed_content(
-                model="models/text-embedding-004",
-                content=text
-            )
-
-            embeddings.append(
-                response["embedding"]
-            )
-
-        except Exception as e:
-
-            print(
-                f"Embedding Error: {e}"
-            )
-
-            # fallback vector
-            embeddings.append(
-                [0.0] * 768
-            )
-
-    return embeddings
+    return model.encode(
+        texts,
+        convert_to_numpy=True
+    )

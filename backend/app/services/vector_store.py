@@ -38,9 +38,12 @@ def add_chunks(
 
 def search_chunks(query_embedding):
 
+    if hasattr(query_embedding, "tolist"):
+        query_embedding = query_embedding.tolist()
+
     results = collection.query(
         query_embeddings=[
-            query_embedding.tolist()
+            query_embedding
         ],
         n_results=5
     )
