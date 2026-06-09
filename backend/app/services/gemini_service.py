@@ -14,7 +14,7 @@ model = genai.GenerativeModel(
     "gemini-2.5-flash"
 )
 
-
+print("GEMINI_API_KEY:", GEMINI_API_KEY[:10])
 def generate_answer(
     question: str,
     context: str
