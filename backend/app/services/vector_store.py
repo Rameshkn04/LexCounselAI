@@ -30,16 +30,13 @@ def add_chunks(
 
     collection.add(
         documents=chunks,
-        embeddings=embeddings.tolist(),
+        embeddings=embeddings,
         ids=ids,
         metadatas=metadatas
     )
 
 
 def search_chunks(query_embedding):
-
-    if hasattr(query_embedding, "tolist"):
-        query_embedding = query_embedding.tolist()
 
     results = collection.query(
         query_embeddings=[

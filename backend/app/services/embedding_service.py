@@ -1,17 +1,22 @@
-from sentence_transformers import SentenceTransformer
+# embedding_service.py
 
-# Load model once when app starts
-model = SentenceTransformer(
-    "all-MiniLM-L6-v2"
-)
+import google.generativeai as genai
+from app.core.config import GEMINI_API_KEY
+
+genai.configure(api_key=GEMINI_API_KEY)
 
 def generate_embeddings(texts):
-    """
-    Generate embeddings for a list of texts.
-    Returns NumPy array compatible with ChromaDB.
-    """
 
-    return model.encode(
-        texts,
-        convert_to_numpy=True
-    )
+    embeddings = []
+
+    for text in texts:
+
+        result = genai.embed_content(
+            model="models/embedding-001",
+            content=text,
+            task_type="retrieval_document"
+        )
+
+        embeddings.append(result["embedding"])
+
+    return embeddings
