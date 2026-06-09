@@ -69,25 +69,102 @@ https://lexcounselai.onrender.com/docs
 
 ## System Architecture
 
-User
-↓
-Frontend (React)
-↓
-FastAPI Backend
-↓
-PDF Processing
-↓
-Chunking
-↓
-Embedding Generation
-↓
-ChromaDB Vector Store
-↓
-Semantic Retrieval
-↓
-Gemini LLM
-↓
-Answer + Source
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         CLIENT LAYER                             │
+│                        React Frontend                            │
+│                      (Authentication UI)                         │
+└────────────────────────────┬────────────────────────────────────┘
+                             │
+                    HTTP/REST API Requests
+                             │
+┌────────────────────────────▼────────────────────────────────────┐
+│                      API GATEWAY LAYER                           │
+│                         FastAPI                                  │
+│               (CORS, Rate Limiting, Routing)                    │
+└────────────────────────────┬────────────────────────────────────┘
+                             │
+        ┌────────────────────┼────────────────────┐
+        │                    │                    │
+   ┌────▼─────┐      ┌──────▼─────┐      ┌──────▼──────┐
+   │  Auth    │      │  Document  │      │   Query     │
+   │ Service  │      │  Management│      │  Processing │
+   │          │      │            │      │             │
+   └────┬─────┘      └──────┬─────┘      └──────┬──────┘
+        │                   │                   │
+        │            ┌──────▼─────┐             │
+        │            │   PDF Text │             │
+        │            │  Extraction│             │
+        │            └──────┬─────┘             │
+        │                   │                   │
+        │            ┌──────▼─────────────────┐ │
+        │            │  Document Chunking &  │ │
+        │            │ Preprocessing Module  │ │
+        │            └──────┬────────────────┘ │
+        │                   │                  │
+        │            ┌──────▼──────────────┐   │
+        │            │ Embedding Generation│   │
+        │            │  (HashingVectorizer)│   │
+        │            └──────┬──────────────┘   │
+        │                   │                  │
+┌───────▼───────────────────▼──────────────────▼──────┐
+│            DATA PERSISTENCE LAYER                    │
+│                                                      │
+│  ┌────────────────────┐     ┌──────────────────┐   │
+│  │   PostgreSQL DB    │     │   ChromaDB       │   │
+│  │                    │     │  Vector Store    │   │
+│  │ • Users            │     │                  │   │
+│  │ • Documents        │     │ • Embeddings     │   │
+│  │ • Query History    │     │ • Metadata       │   │
+│  │ • Audit Logs       │     │ • Similarity     │   │
+│  │                    │     │   Search         │   │
+│  └────────────────────┘     └──────────────────┘   │
+└───────┬──────────────────────────────────────────────┘
+        │
+        │ Semantic Retrieval
+        │
+┌───────▼──────────────────────────────────────────────┐
+│         RETRIEVAL-AUGMENTED GENERATION (RAG)         │
+│                                                      │
+│  1. Query Embedding Generation                      │
+│  2. Similarity Search in ChromaDB                   │
+│  3. Retrieve Top-K Relevant Chunks                  │
+│  4. Rank & Filter Relevant Context                 │
+└───────┬──────────────────────────────────────────────┘
+        │
+        │ Context + Query
+        │
+┌───────▼──────────────────────────────────────────────┐
+│          LLM INFERENCE LAYER                         │
+│                                                      │
+│  • Gemini API                                       │
+│  • Prompt Engineering                              │
+│  • Response Generation                             │
+│  • Source Attribution                              │
+└───────┬──────────────────────────────────────────────┘
+        │
+        │ JSON Response (Answer + Sources)
+        │
+┌───────▼──────────────────────────────────────────────┐
+│         RESPONSE & CACHING LAYER                     │
+│                                                      │
+│  • Format Response                                  │
+│  • Add Source References                           │
+│  • Cache Popular Queries                           │
+│  • Error Handling                                  │
+└───────┬──────────────────────────────────────────────┘
+        │
+        │ HTTP Response
+        │
+┌───────▼──────────────────────────────────────────────┐
+│         FRONTEND DISPLAY LAYER                       │
+│                                                      │
+│  • Render Answer                                    │
+│  • Display Source Documents                        │
+│  • Show Confidence Score                           │
+│  • User Feedback Collection                        │
+└──────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -155,27 +232,37 @@ The repository includes sample documents:
 
 ## Screenshots
 
-### Login Page
+### <div align="center">Login Page</div>
 
 <img src="./screenshots/login.png" alt="Login Page - User authentication interface" width="800" height="600" />
 
-### Dashboard
+---
+
+### <div align="center">Dashboard</div>
 
 <img src="./screenshots/dashboard.png" alt="Dashboard - Main application interface" width="800" height="600" />
 
-### Upload Document
+---
+
+### <div align="center">Upload Document</div>
 
 <img src="./screenshots/upload.png" alt="Upload Document - PDF upload interface" width="800" height="600" />
 
-### Ask Questions
+---
+
+### <div align="center">Ask Questions</div>
 
 <img src="./screenshots/ask-question.png" alt="Ask Questions - Query interface for legal documents" width="800" height="600" />
 
-### FastAPI Backend
+---
+
+### <div align="center">FastAPI Backend</div>
 
 <img src="./screenshots/fastapi.png" alt="FastAPI Backend - API documentation and testing" width="800" height="600" />
 
-### PostgreSQL Neon DB
+---
+
+### <div align="center">PostgreSQL Neon DB</div>
 
 <img src="./screenshots/postgresql neon db.png" alt="PostgreSQL Neon DB - Database management interface" width="800" height="600" />
 
