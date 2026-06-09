@@ -157,23 +157,31 @@ The repository includes sample documents:
 
 ### Login Page
 
-(Add screenshot here)
+<img src="./screenshots/login.png" alt="Login Page" width="800" height="600" />
 
 ### Dashboard
 
-(Add screenshot here)
+<img src="./screenshots/dashboard.png" alt="Dashboard" width="800" height="600" />
 
 ### Upload Document
 
-(Add screenshot here)
+<img src="./screenshots/upload_document.png" alt="Upload Document" width="800" height="600" />
 
 ### Ask Questions
 
-(Add screenshot here)
+<img src="./screenshots/ask_questions.png" alt="Ask Questions" width="800" height="600" />
 
 ### Source Attribution
 
-(Add screenshot here)
+<img src="./screenshots/source_attribution.png" alt="Source Attribution" width="800" height="600" />
+
+### FastAPI Backend
+
+<img src="./screenshots/fastapi_backend.png" alt="FastAPI Backend" width="800" height="600" />
+
+### PostgreSQL Neon DB
+
+<img src="./screenshots/postgresql_neon_db.png" alt="PostgreSQL Neon DB" width="800" height="600" />
 
 ---
 
